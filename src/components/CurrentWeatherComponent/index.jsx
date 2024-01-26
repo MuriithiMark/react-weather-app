@@ -4,7 +4,7 @@ import WeatherIcons, { sun } from "../../assets";
 
 const CurrentWeatherComponent = ({ currentWeatherData }) => {
   const {
-    name,
+    city,
     weather: [{ description, icon }],
     main: { temp },
   } = currentWeatherData;
@@ -18,7 +18,7 @@ const CurrentWeatherComponent = ({ currentWeatherData }) => {
       />
       <div className="current-weather-component__info">
         <span className="__day">Today</span>
-        <span className="__location">{name}</span>
+        <span className="__location">{city}</span>
         <span className="__temperature">
           Temperature: {Math.trunc(temp) - 273}&#176;C
         </span>

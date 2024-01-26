@@ -2,7 +2,7 @@ import React from "react";
 import "./SearchWeatherComponent.css";
 import { useState } from "react";
 
-const SearchWeatherComponent = ({ searchText, onChange, onKeyPress }) => {
+const SearchWeatherComponent = ({ searchText, onChange, onKeyDown }) => {
   return (
     <div className="search-weather-component">
       <input
@@ -10,7 +10,7 @@ const SearchWeatherComponent = ({ searchText, onChange, onKeyPress }) => {
         value={searchText}
         placeholder="Enter a city ..."
         onChange={onChange}
-        onKeyDown={onKeyPress}
+        onKeyDown={onKeyDown}
       />
     </div>
   );

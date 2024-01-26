@@ -4,32 +4,19 @@ import "./App.css";
 import SearchWeatherComponent from "./components/SearchWeatherComponent";
 import MainWeatherComponent from "./components/MainWeatherComponent";
 import { getCurrentWeatherData } from "./services/api";
-// {
-//   name: currentCity,
-//   weather: [{ description: "loading", icon: "01d" }],
-//   main: { temp: 273 },
-// }
+import { loadingGif } from "./assets";
+
 function App() {
   const [currentCity, setCurrentCity] = useState("Nyeri");
   const [searchText, setSearchText] = useState("");
   const [currentWeatherData, setCurrentWeatherData] = useState();
-  const [severalDaysOfForecast, setSeveralDaysOfForecast] = useState();
   const [loading, setLoading] = useState(true);
 
-  /**
-   *
-   * @param {Event} event
-   */
   const handleSearchTextChange = (event) => {
     setSearchText(event.target.value);
   };
 
-  /**
-   *
-   * @param {KeyboardEvent} event
-   * Start Search when enter key is pressed
-   */
-  const handleKeyPress = (event) => {
+  const handleKeyDown = (event) => {
     if (event.key === "Enter") {
       setCurrentCity(searchText);
       setLoading(true);
@@ -39,10 +26,9 @@ function App() {
   useEffect(() => {
     getCurrentWeatherData(currentCity)
       .then((data) => {
-        setCurrentWeatherData((prevData) => data.currentWeatherData);
-        setSeveralDaysOfForecast((prevData) => data.severalDaysOfForecast);
-        // Terminate loading 
-        setLoading(false);
+        setCurrentWeatherData((prevData) => data);
+        // Terminate loading
+        if (!!data) setLoading(false);
       })
       // TODO handle error in the UI
       .catch((error) => console.error(error));
@@ -53,13 +39,16 @@ function App() {
       <SearchWeatherComponent
         searchText={searchText}
         onChange={handleSearchTextChange}
-        onKeyPress={handleKeyPress}
+        onKeyDown={handleKeyDown}
       />
-      <MainWeatherComponent
-        currentWeatherData={currentWeatherData}
-        severalDaysOfForecast={severalDaysOfForecast}
-        loading={loading}
-      />
+      {!loading ? (
+        <MainWeatherComponent
+          currentWeatherData={currentWeatherData}
+          loading={loading}
+        />
+      ) : (
+        <img src={loadingGif} alt="loading-gif" />
+      )}
     </div>
   );
 }

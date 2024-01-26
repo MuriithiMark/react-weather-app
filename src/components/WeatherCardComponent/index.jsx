@@ -1,13 +1,14 @@
 import React from "react";
 import "./WeatherCard.css";
+import WeatherIcons from "../../assets";
 
 const WeatherCardComponent = ({ dailyWeather }) => {
-  const { day, weatherImage, temperature } = dailyWeather;
+  const { day, icon, temperature } = dailyWeather;
   return (
     <div className="weather-card-component">
       <span className="__day">{day}</span>
-      <img src={weatherImage} alt="" />
-      <span>{temperature}</span>
+      <img src={WeatherIcons.get(icon)} alt="" />
+      <span>{temperature}&#176;C</span>
     </div>
   );
 };
