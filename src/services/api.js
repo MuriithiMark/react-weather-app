@@ -14,19 +14,46 @@ async function getCoordinatesOfCity(cityName) {
         `&appid=${OPEN_WEATHER_API_KEY}`;
 
     const response = await fetch(geolocationUrl);
+    console.log(response);
+
     if (!response.ok || response.status !== 200) {
         console.error(`Error fetching geolocation data: `, response);
         return [];
     }
     const geoLocationData = await response.json();
 
-    if(geoLocationData.length === 0) {
+    if (geoLocationData.length === 0) {
         return [];
     }
 
     const [{ lat, lon }] = geoLocationData;
     return [lat, lon];
 }
+
+/**
+ * 
+ * @param {number} lat 
+ * @param {number} lon 
+ * @returns 
+ */
+async function getSeveralDaysOfForecast(lat, lon) {
+    // Several Days of Forecast
+    const severalDaysOfForecast =
+        `https://api.openweathermap.org/data/2.5/forecast?` +
+        `lat=${lat}` +
+        `&lon=${lon}` +
+        `&appid=${OPEN_WEATHER_API_KEY}`;
+    const response = await fetch(severalDaysOfForecast);
+    if (!response.ok || response.status !== 200) {
+        console.error(`Error retrieving several days of weather forecast `, response);
+        throw new Error("[SeveralDaysOfForecast] ", "invalid response")
+    }
+    console.log(response)
+    const severalDaysOfForecastData = await response.json();
+    console.log(severalDaysOfForecast)
+    return severalDaysOfForecast;
+}
+
 
 /**
  * 
@@ -42,15 +69,9 @@ async function getCurrentWeatherData(cityName) {
             message: 'No such city found',
         }`)
     }
-
     const [lat, lon] = coordinates;
-    const partToBeExcluded = 'minutely,hourly,alerts';
-    // const currentWeatherDataUrl = `${CORS_ANYWHERE_URL}http://api.openweathermap.org/data/2.5/onecall?` +
-    //     `lat=${lat}&lon=${lon}` +
-    //     `&exclude=${partToBeExcluded}` +
-    //     `&appid=${OPEN_WEATHER_API_KEY}`;
-    const currentWeatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}
-    `
+
+    const currentWeatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}`
 
     const response = await fetch(currentWeatherDataUrl, { mode: 'cors' });
     if (!response.ok || response.status !== 200) {
@@ -61,9 +82,14 @@ async function getCurrentWeatherData(cityName) {
         }`)
     }
     const currentWeatherData = await response.json();
-    // TODO only place required objects in currentWeatherData
-    return currentWeatherData;
-}
+    const severalDaysOfForecast = await getSeveralDaysOfForecast(lat, lon);
 
+
+    // TODO only place required objects in currentWeatherData
+    return {
+        currentWeatherData,
+        severalDaysOfForecast
+    };
+}
 
 export { getCurrentWeatherData }

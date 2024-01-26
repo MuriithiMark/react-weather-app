@@ -4,16 +4,17 @@ import "./App.css";
 import SearchWeatherComponent from "./components/SearchWeatherComponent";
 import MainWeatherComponent from "./components/MainWeatherComponent";
 import { getCurrentWeatherData } from "./services/api";
-
+// {
+//   name: currentCity,
+//   weather: [{ description: "loading", icon: "01d" }],
+//   main: { temp: 273 },
+// }
 function App() {
-  
   const [currentCity, setCurrentCity] = useState("Nyeri");
   const [searchText, setSearchText] = useState("");
-  const [currentWeatherData, setCurrentWeatherData] = useState({
-    name: currentCity,
-    weather: [{ description: 'loading', icon: "01d"}],
-    main: { temp: 273 }
-  });
+  const [currentWeatherData, setCurrentWeatherData] = useState();
+  const [severalDaysOfForecast, setSeveralDaysOfForecast] = useState();
+  const [loading, setLoading] = useState(true);
 
   /**
    *
@@ -31,13 +32,17 @@ function App() {
   const handleKeyPress = (event) => {
     if (event.key === "Enter") {
       setCurrentCity(searchText);
+      setLoading(true);
     }
   };
 
   useEffect(() => {
     getCurrentWeatherData(currentCity)
-      .then((currentWeatherData) => {
-        setCurrentWeatherData((prevData) => currentWeatherData);
+      .then((data) => {
+        setCurrentWeatherData((prevData) => data.currentWeatherData);
+        setSeveralDaysOfForecast((prevData) => data.severalDaysOfForecast);
+        // Terminate loading 
+        setLoading(false);
       })
       // TODO handle error in the UI
       .catch((error) => console.error(error));
@@ -50,7 +55,11 @@ function App() {
         onChange={handleSearchTextChange}
         onKeyPress={handleKeyPress}
       />
-      <MainWeatherComponent currentWeatherData={currentWeatherData} />
+      <MainWeatherComponent
+        currentWeatherData={currentWeatherData}
+        severalDaysOfForecast={severalDaysOfForecast}
+        loading={loading}
+      />
     </div>
   );
 }

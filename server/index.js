@@ -17,7 +17,7 @@ app.get('*', (req, res) => {
         .then((response) => response.json())
         .then((data) => {
             console.log(data)
-            res.setHeader('Access-Control-Allow-Origin', 'localhost');
+            res.setHeader('Access-Control-Allow-Origin', 'localhost:5173');
             res.json(data)
         })
 
