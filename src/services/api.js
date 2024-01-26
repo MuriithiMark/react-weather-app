@@ -1,6 +1,11 @@
-const OPEN_WEATHER_API_KEY = "c2968e404b7188d365a90cc1a7c10780";
-const CORS_ANYWHERE_URL = "https://cors-anywhere.herokuapp.com/";
+const OPEN_WEATHER_API_KEY = "ce87a2c798575dee6dc896329fd276a8";
+const CORS_ANYWHERE_URL = "http://localhost:8001/";
 
+/**
+ * 
+ * @param {string} cityName 
+ * @returns {[lat: number, lon: number]}
+ */
 async function getCoordinatesOfCity(cityName) {
     const limit = 1;
     const geolocationUrl = `http://api.openweathermap.org/geo/1.0/direct?` +
@@ -40,7 +45,7 @@ async function getCurrentWeatherData(cityName) {
 
     const [lat, lon] = coordinates;
     const partToBeExcluded = 'minutely,hourly,alerts';
-    const currentWeatherDataUrl = `http://api.openweathermap.org/data/2.5/onecall?` +
+    const currentWeatherDataUrl = `${CORS_ANYWHERE_URL}http://api.openweathermap.org/data/2.5/onecall?` +
         `lat=${lat}&lon=${lon}` +
         `&exclude=${partToBeExcluded}` +
         `&appid=${OPEN_WEATHER_API_KEY}`;

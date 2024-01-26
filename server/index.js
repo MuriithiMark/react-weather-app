@@ -19,6 +19,16 @@ app.get('*', (req, res) => {
             console.log(data)
             res.json(data)
         })
+
+        .catch((error) => {
+            res.statusCode = 401
+            res.statusMessage = `Invalid Response from  ${url}`
+            res.json({
+                status: 'fail',
+                message: `Invalid response from ${url}`,
+                hint: "Ensure that a json response is returned from the given url"
+            })
+        })
 });
 
 app.listen(port, () => {
