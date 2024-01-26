@@ -35,7 +35,6 @@ function App() {
   };
 
   useEffect(() => {
-    console.log(currentCity);
     getCurrentWeatherData(currentCity)
       .then((currentWeatherData) => {
         setCurrentWeatherData((prevData) => currentWeatherData);
