@@ -1,3 +1,4 @@
+// FIXME place this in secure place, .env file
 const API_KEY = "c2968e404b7188d365a90cc1a7c10780";
 
 async function getCurrentWeatherData(cityName) {
