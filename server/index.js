@@ -10,16 +10,14 @@ const corsOptions = {
 
 app.use(cors(corsOptions));
 
-app.get('/:url', (req, res) => {
-    const url = req.params.url;
+app.get('*', (req, res) => {
+    const url = req.url.replace('/', '');
+    console.info('[Request Url]: ', url)
     fetch(url)
         .then((response) => response.json())
-        .then((data) => res.json(data))
-
-        .catch((error) => {
-            // TODO Fix this error code is incorrect
-            res.statusCode = 404
-            res.send(error)
+        .then((data) => {
+            console.log(data)
+            res.json(data)
         })
 });
 
