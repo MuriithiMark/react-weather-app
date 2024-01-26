@@ -23,3 +23,33 @@ export {
     loadingGif,
     sun,
 }
+
+const WeatherIcons = new Map();
+
+WeatherIcons.set("01d", sun);
+WeatherIcons.set("02d", lightCloudsSun);
+WeatherIcons.set("03d", heavyCloudsSun);
+WeatherIcons.set("04d", cloudy);
+WeatherIcons.set("09d", lightRain);
+WeatherIcons.set("10d", heavyRain);
+WeatherIcons.set("11d", heavyRainsLightning);
+WeatherIcons.set("13d", cloudyThunder);
+WeatherIcons.set("50d", foggy);
+WeatherIcons.set("cloudy_moon", cloudyMoon);
+
+export default WeatherIcons;
+
+
+// export default const WeatherIcons =  {
+//     '': cloudyMoon,
+//     '': cloudyThunder,
+//     '': cloudy,
+//     '': foggy,
+//     '': heavyCloudsSun,
+//     '': heavyRain,
+//     '': heavyRainsLightning,
+//     '': lightCloudsSun,
+//     '': lightRain,
+//     loadingGif,
+//     sun,
+// }

@@ -8,7 +8,7 @@ const CORS_ANYWHERE_URL = "http://localhost:8001/";
  */
 async function getCoordinatesOfCity(cityName) {
     const limit = 1;
-    const geolocationUrl = `http://api.openweathermap.org/geo/1.0/direct?` +
+    const geolocationUrl = `${CORS_ANYWHERE_URL}http://api.openweathermap.org/geo/1.0/direct?` +
         `q=${cityName}` +
         `&limit=${limit}` +
         `&appid=${OPEN_WEATHER_API_KEY}`;
@@ -45,10 +45,12 @@ async function getCurrentWeatherData(cityName) {
 
     const [lat, lon] = coordinates;
     const partToBeExcluded = 'minutely,hourly,alerts';
-    const currentWeatherDataUrl = `${CORS_ANYWHERE_URL}http://api.openweathermap.org/data/2.5/onecall?` +
-        `lat=${lat}&lon=${lon}` +
-        `&exclude=${partToBeExcluded}` +
-        `&appid=${OPEN_WEATHER_API_KEY}`;
+    // const currentWeatherDataUrl = `${CORS_ANYWHERE_URL}http://api.openweathermap.org/data/2.5/onecall?` +
+    //     `lat=${lat}&lon=${lon}` +
+    //     `&exclude=${partToBeExcluded}` +
+    //     `&appid=${OPEN_WEATHER_API_KEY}`;
+    const currentWeatherDataUrl = `https://api.openweathermap.org/data/2.5/weather?lat=${lat}&lon=${lon}&appid=${OPEN_WEATHER_API_KEY}
+    `
 
     const response = await fetch(currentWeatherDataUrl, { mode: 'cors' });
     if (!response.ok || response.status !== 200) {
@@ -59,7 +61,6 @@ async function getCurrentWeatherData(cityName) {
         }`)
     }
     const currentWeatherData = await response.json();
-    console.log(currentWeatherData)
     // TODO only place required objects in currentWeatherData
     return currentWeatherData;
 }

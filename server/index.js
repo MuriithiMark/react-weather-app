@@ -4,7 +4,7 @@ const cors = require("cors");
 const app = express();
 const port = 8001;
 const corsOptions = {
-    origin: "*",
+    origin: '*',
     methods: 'GET,HEAD,PUT,PATCH,POST,DELETE',
 }
 
@@ -17,6 +17,7 @@ app.get('*', (req, res) => {
         .then((response) => response.json())
         .then((data) => {
             console.log(data)
+            res.setHeader('Access-Control-Allow-Origin', 'localhost');
             res.json(data)
         })
 

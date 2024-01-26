@@ -6,9 +6,14 @@ import MainWeatherComponent from "./components/MainWeatherComponent";
 import { getCurrentWeatherData } from "./services/api";
 
 function App() {
-  const [weatherData, setWeatherData] = useState();
-  const [currentCity, setCurrentCity] = useState("Nairobi");
+  
+  const [currentCity, setCurrentCity] = useState("Nyeri");
   const [searchText, setSearchText] = useState("");
+  const [currentWeatherData, setCurrentWeatherData] = useState({
+    name: currentCity,
+    weather: [{ description: 'loading', icon: "01d"}],
+    main: { temp: 273 }
+  });
 
   /**
    *
@@ -24,7 +29,7 @@ function App() {
    * Start Search when enter key is pressed
    */
   const handleKeyPress = (event) => {
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       setCurrentCity(searchText);
     }
   };
@@ -33,7 +38,7 @@ function App() {
     console.log(currentCity);
     getCurrentWeatherData(currentCity)
       .then((currentWeatherData) => {
-        setWeatherData((weatherData) => currentWeatherData);
+        setCurrentWeatherData((prevData) => currentWeatherData);
       })
       // TODO handle error in the UI
       .catch((error) => console.error(error));
@@ -46,7 +51,7 @@ function App() {
         onChange={handleSearchTextChange}
         onKeyPress={handleKeyPress}
       />
-      <MainWeatherComponent weatherData={weatherData} />
+      <MainWeatherComponent currentWeatherData={currentWeatherData} />
     </div>
   );
 }
