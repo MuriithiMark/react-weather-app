@@ -6,24 +6,8 @@ import { loadingGif } from "../../assets";
 
 const getDay = (dt_txt) => {
   const dayPosition = new Date(dt_txt).getDay();
-  switch (dayPosition) {
-    case 0:
-      return "Sunday";
-    case 1:
-      return "Monday";
-    case 2:
-      return "Tuesday";
-    case 3:
-      return "Wednesday";
-    case 4:
-      return "Thursday";
-    case 5:
-      return "Friday";
-    case 6:
-      return "Saturday";
-    default:
-      return "ERROR"; // FIXME
-  }
+  const daysOfTheWeek = ["Sunday", "Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday"];
+  return daysOfTheWeek[dayPosition];
 };
 
 const MainWeatherComponent = ({ currentWeatherData }) => {
